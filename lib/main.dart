@@ -51,7 +51,7 @@ class MyHomePage extends StatelessWidget {
                     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 2,)),
                     child: Text(
-                      tx.amount.toString(),
+                      'R\$ ${tx.amount}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -60,9 +60,22 @@ class MyHomePage extends StatelessWidget {
                     ),
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(tx.title),
-                      Text(tx.date.toString())
+                      Text(
+                        tx.title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        tx.date.toString(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      )
                     ],
                   )
                 ],
