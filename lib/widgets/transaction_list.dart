@@ -11,45 +11,48 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      child: ListView(
-        children: transactions.map((tx) {
-          return Card(child: Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 2,)),
-                child: Text(
-                    'R\$ ${tx.amount}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.purple
-                    )
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          return Card(
+              child: Row(
                 children: [
-                  Text(
-                    tx.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                        )),
+                    child: Text('R\$ ${transactions[index].amount.toStringAsFixed(2)}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.purple)),
                   ),
-                  Text(
-                    DateFormat('dd/MM/yyyy HH:mm').format(tx.date),
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        transactions[index].title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        DateFormat('dd/MM/yyyy HH:mm').format(transactions[index].date),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
-          ));
-        }).toList(),
+              ));
+        },
+        itemCount: transactions.length,
       ),
     );
   }
