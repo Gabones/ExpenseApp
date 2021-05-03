@@ -10,7 +10,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.purple,
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+          headline6: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          )
+        )
       ),
       title: 'Expenses App',
       home: MyHomePage(),
@@ -27,8 +36,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   final List<Transaction> _userTransactions = [
-    Transaction(id: '0', title: 'Tênis novos', amount: 299.99, date: DateTime.now()),
-    Transaction(id: '1', title: 'Compras da semana', amount: 16.99, date: DateTime.now())
+    // Transaction(id: '0', title: 'Tênis novos', amount: 299.99, date: DateTime.now()),
+    // Transaction(id: '1', title: 'Compras da semana', amount: 16.99, date: DateTime.now())
   ];
 
   void _addNewTransaction(String txTitle, double txAmount) {
@@ -72,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               width: double.infinity,
               child: Card(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColorLight,
                 child: Text('CHART!'),
                 elevation: 5,
               ),
@@ -84,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        backgroundColor: Colors.purple,
+        foregroundColor: Colors.white,
         onPressed: () => _startAddNewTransaction(context),
       ),
     );
