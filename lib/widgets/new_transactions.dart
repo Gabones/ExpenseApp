@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class NewTransaction extends StatefulWidget {
-
   final Function addTx;
 
   NewTransaction(this.addTx);
@@ -19,11 +18,11 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if(enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
 
-    widget.addTx(enteredTitle,enteredAmount);
+    widget.addTx(enteredTitle, enteredAmount);
   }
 
   @override
@@ -35,23 +34,46 @@ class _NewTransactionState extends State<NewTransaction> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            TextField(
-              // onChanged: (value) => titleInput = value,
-              controller: _titleController,
-              onSubmitted: (_) => submitData(),
-              decoration: InputDecoration(labelText: 'Titulo'),
+            Form(
+              child: Column(
+                children: [
+                  TextField(
+                    // onChanged: (value) => titleInput = value,
+                    controller: _titleController,
+                    onSubmitted: (_) => submitData(),
+                    decoration: InputDecoration(labelText: 'Titulo'),
+                  ),
+                  TextField(
+                    // onChanged: (value) => amountInput = value,
+                    controller: _amountController,
+                    keyboardType: TextInputType.number,
+                    onSubmitted: (_) =>
+                        submitData(), //esse metodo passa um argumento _
+                    decoration: InputDecoration(labelText: 'Total'),
+                  ),
+                ],
+              ),
             ),
-            TextField(
-              // onChanged: (value) => amountInput = value,
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => submitData(), //esse metodo passa um argumento _
-              decoration: InputDecoration(labelText: 'Total'),
+            Row(
+              children: [
+                Text('No Date Chosen!'),
+                TextButton(
+                  onPressed: () {},
+                  child: Text('Choose Date!'),
+                  style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor)),
+                ),
+              ],
             ),
-            TextButton(
-              child: Text('Add Compra'),
+            ElevatedButton(
+              child: Text(
+                'Add Compra',
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: submitData, //esse metodo não tenta passar nada
-              style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.purple)),
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.purple)),
             ),
           ],
         ),
