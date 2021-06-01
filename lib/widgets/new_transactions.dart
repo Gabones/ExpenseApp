@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 class NewTransaction extends StatefulWidget {
@@ -11,18 +12,34 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
-
   final _amountController = TextEditingController();
+  DateTime _selectedDate;
 
-  void submitData() {
+  void _submitData() {
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null || _amountController.text.isEmpty) {
       return;
     }
 
-    widget.addTx(enteredTitle, enteredAmount);
+    widget.addTx(enteredTitle, enteredAmount,_selectedDate);
+  }
+
+  void _presentDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
 
   @override
@@ -40,7 +57,7 @@ class _NewTransactionState extends State<NewTransaction> {
                   TextField(
                     // onChanged: (value) => titleInput = value,
                     controller: _titleController,
-                    onSubmitted: (_) => submitData(),
+                    onSubmitted: (_) => _submitData(),
                     decoration: InputDecoration(labelText: 'Titulo'),
                   ),
                   TextField(
@@ -48,7 +65,7 @@ class _NewTransactionState extends State<NewTransaction> {
                     controller: _amountController,
                     keyboardType: TextInputType.number,
                     onSubmitted: (_) =>
-                        submitData(), //esse metodo passa um argumento _
+                        _submitData(), //esse metodo passa um argumento _
                     decoration: InputDecoration(labelText: 'Total'),
                   ),
                 ],
@@ -56,9 +73,13 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             Row(
               children: [
-                Text('No Date Chosen!'),
+                Expanded(
+                  child: Text(_selectedDate == null
+                      ? 'No Date Chosen!'
+                      : 'Data: ${DateFormat.yMd().format(_selectedDate)}'),
+                ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: _presentDatePicker,
                   child: Text('Choose Date!'),
                   style: ButtonStyle(
                       foregroundColor: MaterialStateProperty.all(
@@ -71,7 +92,7 @@ class _NewTransactionState extends State<NewTransaction> {
                 'Add Compra',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: submitData, //esse metodo não tenta passar nada
+              onPressed: _submitData, //esse metodo não tenta passar nada
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.purple)),
             ),
